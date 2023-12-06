@@ -3,6 +3,7 @@ package com.supraja.cruddemo.dao;
 import com.supraja.cruddemo.entity.Course;
 import com.supraja.cruddemo.entity.Instructor;
 import com.supraja.cruddemo.entity.InstructorDetail;
+import com.supraja.cruddemo.entity.Student;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
@@ -36,4 +37,12 @@ public interface AppDAO {
     Course findCourseAndReviewsById (int id);
 
     void deleteCourseAndReviewById (int id);
+
+    Course findCourseandStudentsByCourseId (int id);
+
+    Student findCourseandStudentByStudentId (int id);
+
+    void updateStudents (Student student);
+
+    void deleteStudent (int theId);
 }

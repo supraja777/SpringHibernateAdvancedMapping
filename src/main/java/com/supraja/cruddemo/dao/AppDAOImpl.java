@@ -3,6 +3,7 @@ package com.supraja.cruddemo.dao;
 import com.supraja.cruddemo.entity.Course;
 import com.supraja.cruddemo.entity.Instructor;
 import com.supraja.cruddemo.entity.InstructorDetail;
+import com.supraja.cruddemo.entity.Student;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -128,5 +129,34 @@ public class AppDAOImpl implements  AppDAO{
     public void deleteCourseAndReviewById(int id) {
         Course courseToDelete = entityManager.find(Course.class, id);
         entityManager.remove(courseToDelete);
+    }
+
+    @Override
+    public Course findCourseandStudentsByCourseId(int id) {
+        TypedQuery<Course> query = entityManager.createQuery("select c from Course c JOIN FETCH c.students where c.id =:data", Course.class);
+        query.setParameter("data", id);
+        return query.getSingleResult();
+
+    }
+
+    @Override
+    public Student findCourseandStudentByStudentId(int id) {
+        TypedQuery<Student> query = entityManager.createQuery("select s from Student s JOIN FETCH s.courses where s.id =:data", Student.class);
+        query.setParameter("data", id);
+        Student student =  query.getSingleResult();
+        return student;
+    }
+
+    @Override
+    @Transactional
+    public void updateStudents(Student student) {
+        entityManager.merge(student);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudent(int theId) {
+        Student student = entityManager.find(Student.class, theId);
+        entityManager.remove(student);
     }
 }
